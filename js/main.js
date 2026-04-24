@@ -14,18 +14,9 @@ function initWhatsAppLinks() {
   });
 }
 
-/* ── Navbar: fundo sólido ao rolar ── */
+/* ── Navbar: cor fixa, sem mudança ao rolar ── */
 function initNavScroll() {
-  const nav = document.querySelector('nav');
-  if (!nav) return;
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 60) {
-      nav.style.background = 'rgba(10, 10, 10, 0.98)';
-    } else {
-      nav.style.background = 'rgba(10, 10, 10, 0.85)';
-    }
-  });
+  // Cor fixa — sem alteração ao rolar
 }
 
 /* ── Animação de entrada ao rolar (Intersection Observer) ── */
