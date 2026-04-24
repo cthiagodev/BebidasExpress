@@ -2,7 +2,7 @@
    Bebidas Express — Scripts
    ============================================================ */
 
-const WHATSAPP_NUMBER = '5583900000000';
+const WHATSAPP_NUMBER = '5583998465707';
 
 /* ── Estado do Carrinho ── */
 let cart = [];
@@ -73,7 +73,15 @@ function addToCart(name, price, icon) {
   document.getElementById('cartOverlay').classList.add('open');
 }
 
-/* ── Alterar quantidade ── */
+/* ── Alterar quantidade no card ── */
+function changeCardQty(btn, delta) {
+  const qtyEl = btn.parentElement.querySelector('.qty-card-val');
+  let val = parseInt(qtyEl.textContent) + delta;
+  if (val < 1) val = 1;
+  qtyEl.textContent = val;
+}
+
+/* ── Alterar quantidade no carrinho ── */
 function changeQty(name, delta) {
   const item = cart.find(i => i.name === name);
   if (!item) return;
@@ -102,17 +110,17 @@ function initCart() {
     if (!btn) return;
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      addToCart(
-        card.dataset.name,
-        card.dataset.price,
-        card.dataset.icon
-      );
-      // Feedback visual
-      btn.textContent = '✓ Adicionado!';
+      const qtyEl = card.querySelector('.qty-card-val');
+      const qty = qtyEl ? parseInt(qtyEl.textContent) : 1;
+      for (let i = 0; i < qty; i++) {
+        addToCart(card.dataset.name, card.dataset.price, card.dataset.icon);
+      }
+      btn.innerHTML = '✓ Adicionado!';
       btn.style.background = '#25a244';
       setTimeout(() => {
-        btn.textContent = '+ Adicionar';
+        btn.innerHTML = `<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.9 18 9 18h12v-2H9.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 23.45 5H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg> Adicionar`;
         btn.style.background = '';
+        if (qtyEl) qtyEl.textContent = '1';
       }, 1200);
     });
   });
