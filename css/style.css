@@ -377,14 +377,12 @@ h1 span { color: var(--red); }
 /* Footer */
 footer {
   background: #2a2a2a; color: rgba(255,255,255,0.4);
-  padding: 2.5rem 5% 2.5rem 0;
+  padding: 1.5rem 5%;
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 1.5rem;
   border-top: none;
-  overflow: visible;
-  position: relative;
 }
-footer img { height: 380px; width: auto; display: block; flex-shrink: 0; margin-top: 5px; position: absolute; top: 50%; left: 0; transform: translateY(-53%); }
+footer img { height: 20px; width: auto; display: block; flex-shrink: 0; }
 .footer-links { display: flex; gap: 2rem; }
 .footer-links a {
   color: rgba(255,255,255,0.4); text-decoration: none;
