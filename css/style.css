@@ -123,14 +123,14 @@ nav a:first-child {
   align-items: center;
 }
 nav img {
-  height: 380px; /* altere só aqui — o navbar nunca muda */
+  height: 380px; /* ← TAMANHO DA LOGO DO HEADER */
   width: auto;
   display: block;
   flex-shrink: 0;
   position: absolute;
   top: 50%;
-  left: 0;
-  transform: translateY(-52%);
+  left: 0; /* ← POSIÇÃO HORIZONTAL DA LOGO (negativo = mais à esquerda) */
+  transform: translateY(-52%); /* ← POSIÇÃO VERTICAL (mais negativo = mais acima) */
 }
 nav ul { display: none; }
 
@@ -382,7 +382,7 @@ footer {
   flex-wrap: wrap; gap: 1.5rem;
   border-top: none;
 }
-footer img { height: 20px; width: auto; display: block; flex-shrink: 0; }
+footer img { height: 48px; width: auto; display: block; flex-shrink: 0; }
 .footer-links { display: flex; gap: 2rem; }
 .footer-links a {
   color: rgba(255,255,255,0.4); text-decoration: none;
@@ -414,6 +414,8 @@ footer img { height: 20px; width: auto; display: block; flex-shrink: 0; }
   .diferenciais-grid { grid-template-columns: 1fr; }
   #cta { flex-direction: column; align-items: flex-start; padding: 60px 6%; }
   .hero-line { display: none; }
+  nav { padding: 0 3% 0 0; }
+  nav img { left: -100px; } /* ← AJUSTE MOBILE: mude esse valor para mover a logo à esquerda */
 }
 @media (max-width: 480px) {
   .produtos-grid { grid-template-columns: 1fr; }
