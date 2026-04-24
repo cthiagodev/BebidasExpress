@@ -4,12 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bebidas Express – Sua conveniência na velocidade certa</title>
-
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Estilos -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -17,7 +13,7 @@
   <!-- NAVBAR -->
   <nav>
     <a href="#hero">
-      <img src="assets/bebidasExpress01.png" alt="Bebidas Express">
+      <img src="assets/bebidaExpress.png" alt="Bebidas Express">
     </a>
     <div class="nav-icons">
       <a class="nav-icon-btn" href="#" data-whatsapp="Olá! Quero fazer um pedido.">
@@ -26,22 +22,78 @@
       <a class="nav-icon-btn" href="#produtos">
         <svg viewBox="0 0 24 24"><path d="M16 4.586L14.414 3H9v2h4.586L15 6.414V9h-4.184A3.001 3.001 0 0 0 8 11H4a3 3 0 1 0 0 6h.17A3.001 3.001 0 0 0 10 17h4a3.001 3.001 0 0 0 5.83 0H20a1 1 0 0 0 1-1v-3.586L16 4.586zM4 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4-8h-4.126A3.014 3.014 0 0 0 9.17 11H8a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1h4.126c.444.628.998 1.17 1.874 1.383V13h-2v2h4v-1.17A3.001 3.001 0 0 0 17 11V9h-2zm3 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
       </a>
+      <!-- Botão Carrinho -->
+      <button class="nav-icon-btn cart-btn" id="cartToggle" aria-label="Carrinho">
+        <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.9 18 9 18h12v-2H9.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 23.45 5H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
     </div>
   </nav>
 
+  <!-- SIDEBAR CARRINHO -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>Seu Carrinho</h3>
+      <button class="cart-close" id="cartClose">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">
+        <span>🛒</span>
+        <p>Seu carrinho está vazio</p>
+      </div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total">
+        <span>Total</span>
+        <strong id="cartTotal">R$ 0,00</strong>
+      </div>
+      <button class="btn-primary w-full" id="checkoutBtn">Finalizar Pedido</button>
+    </div>
+  </aside>
+
+  <!-- MODAL ENDEREÇO -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Endereço de Entrega</h3>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Endereço (Rua/Av)</label>
+          <input type="text" id="inputEndereco" placeholder="Ex: Rua das Flores">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Número</label>
+            <input type="text" id="inputNumero" placeholder="Ex: 123">
+          </div>
+          <div class="form-group">
+            <label>CEP</label>
+            <input type="text" id="inputCep" placeholder="Ex: 58000-000" maxlength="9">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Complemento</label>
+          <input type="text" id="inputComplemento" placeholder="Ex: Apto 2, Bloco B (opcional)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary w-full" id="sendWhatsapp">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Enviar pelo WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- HERO -->
   <section id="hero">
-    <div class="hero-line"></div>
-    <div class="hero-line"></div>
-    <div class="hero-line"></div>
-
     <div class="hero-content">
       <div class="hero-badge">Delivery disponível agora</div>
       <h1>Bebidas<br><span>na hora</span><br>certa.</h1>
-      <p class="hero-sub">
-        Cervejas, destilados, energéticos e muito mais —
-        entregues na sua porta em até 30 minutos.
-      </p>
+      <p class="hero-sub">Cervejas, destilados, energéticos e muito mais — entregues na sua porta em até 30 minutos.</p>
       <div class="hero-actions">
         <a href="#" class="btn-primary" data-whatsapp="Olá! Quero fazer um pedido.">
           <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -50,38 +102,20 @@
         <a href="#produtos" class="btn-outline">Ver cardápio</a>
       </div>
     </div>
-
     <div class="hero-bottom">
-      <div class="hero-stat">
-        <strong>30min</strong>
-        <span>Entrega média</span>
-      </div>
-      <div class="hero-stat">
-        <strong>+500</strong>
-        <span>Clientes</span>
-      </div>
-      <div class="hero-stat">
-        <strong>7dias</strong>
-        <span>Por semana</span>
-      </div>
+      <div class="hero-stat"><strong>30min</strong><span>Entrega média</span></div>
+      <div class="hero-stat"><strong>+2000</strong><span>Clientes</span></div>
+      <div class="hero-stat"><strong>7dias</strong><span>Por semana</span></div>
     </div>
   </section>
 
   <!-- TICKER -->
   <div class="ticker">
     <div class="ticker-inner">
-      <span>Entrega Rápida</span>
-      <span>Sempre Gelado</span>
-      <span>Pix & Cartão</span>
-      <span>Todos os Dias</span>
-      <span>30 Minutos</span>
-      <span>Peça Agora</span>
-      <span>Entrega Rápida</span>
-      <span>Sempre Gelado</span>
-      <span>Pix & Cartão</span>
-      <span>Todos os Dias</span>
-      <span>30 Minutos</span>
-      <span>Peça Agora</span>
+      <span>Entrega Rápida</span><span>Sempre Gelado</span><span>Pix & Cartão</span>
+      <span>Todos os Dias</span><span>30 Minutos</span><span>Peça Agora</span>
+      <span>Entrega Rápida</span><span>Sempre Gelado</span><span>Pix & Cartão</span>
+      <span>Todos os Dias</span><span>30 Minutos</span><span>Peça Agora</span>
     </div>
   </div>
 
@@ -94,44 +128,68 @@
       </div>
       <a href="#" class="btn-primary" data-whatsapp="Olá! Quero ver o cardápio completo.">Ver tudo</a>
     </div>
-
     <div class="produtos-grid">
-      <div class="produto-card">
+
+      <div class="produto-card" data-name="Cerveja" data-price="8.00" data-icon="🍺">
         <div class="produto-icon">🍺</div>
         <div class="produto-name">Cervejas</div>
         <div class="produto-desc">Long neck, lata e garrafa. Nacionais e importadas, sempre geladas.</div>
-        <div class="produto-tag">Sempre gelado</div>
+        <div class="produto-card-footer">
+          <span class="produto-price">R$ 8,00</span>
+          <button class="btn-add-cart">+ Adicionar</button>
+        </div>
       </div>
-      <div class="produto-card">
+
+      <div class="produto-card" data-name="Destilado" data-price="45.00" data-icon="🥃">
         <div class="produto-icon">🥃</div>
         <div class="produto-name">Destilados</div>
         <div class="produto-desc">Cachaça, vodka, whisky, rum e muito mais. As melhores marcas.</div>
-        <div class="produto-tag">Premium</div>
+        <div class="produto-card-footer">
+          <span class="produto-price">R$ 45,00</span>
+          <button class="btn-add-cart">+ Adicionar</button>
+        </div>
       </div>
-      <div class="produto-card">
+
+      <div class="produto-card" data-name="Energético" data-price="12.00" data-icon="⚡">
         <div class="produto-icon">⚡</div>
         <div class="produto-name">Energéticos</div>
         <div class="produto-desc">Red Bull, Monster, TNT e outras marcas para agitar sua noite.</div>
-        <div class="produto-tag">Variedade</div>
+        <div class="produto-card-footer">
+          <span class="produto-price">R$ 12,00</span>
+          <button class="btn-add-cart">+ Adicionar</button>
+        </div>
       </div>
-      <div class="produto-card">
+
+      <div class="produto-card" data-name="Refrigerante" data-price="6.00" data-icon="🥤">
         <div class="produto-icon">🥤</div>
         <div class="produto-name">Refrigerantes</div>
         <div class="produto-desc">Coca-Cola, Pepsi, Guaraná Antarctica, sucos e drinks sem álcool.</div>
-        <div class="produto-tag">Para toda família</div>
+        <div class="produto-card-footer">
+          <span class="produto-price">R$ 6,00</span>
+          <button class="btn-add-cart">+ Adicionar</button>
+        </div>
       </div>
-      <div class="produto-card">
+
+      <div class="produto-card" data-name="Espumante" data-price="35.00" data-icon="🍾">
         <div class="produto-icon">🍾</div>
         <div class="produto-name">Espumantes</div>
         <div class="produto-desc">Prosecco, espumantes nacionais e champagnes para celebrar.</div>
-        <div class="produto-tag">Ocasiões especiais</div>
+        <div class="produto-card-footer">
+          <span class="produto-price">R$ 35,00</span>
+          <button class="btn-add-cart">+ Adicionar</button>
+        </div>
       </div>
-      <div class="produto-card">
+
+      <div class="produto-card" data-name="Gelo & Petisco" data-price="5.00" data-icon="🧊">
         <div class="produto-icon">🧊</div>
         <div class="produto-name">Gelo & Petiscos</div>
         <div class="produto-desc">Gelo em cubo, amendoim, chips e itens de conveniência.</div>
-        <div class="produto-tag">Completo</div>
+        <div class="produto-card-footer">
+          <span class="produto-price">R$ 5,00</span>
+          <button class="btn-add-cart">+ Adicionar</button>
+        </div>
       </div>
+
     </div>
   </section>
 
@@ -140,25 +198,24 @@
     <div class="section-tag">Simples assim</div>
     <h2>Como <em>funciona</em></h2>
     <p class="section-desc">Três passos e seu pedido está a caminho. Rápido, sem complicação.</p>
-
     <div class="steps">
       <div class="step">
         <div class="step-num">01</div>
-        <span class="step-icon">💬</span>
-        <h3>Fale no WhatsApp</h3>
-        <p>Mande mensagem com o que você quer. Atendimento rápido e sem enrolação.</p>
+        <span class="step-icon">🛒</span>
+        <h3>Monte seu carrinho</h3>
+        <p>Adicione os produtos que deseja diretamente pelo cardápio.</p>
       </div>
       <div class="step">
         <div class="step-num">02</div>
-        <span class="step-icon">✅</span>
-        <h3>Confirme o pedido</h3>
-        <p>Informe seu endereço e forma de pagamento. Pix, dinheiro ou cartão.</p>
+        <span class="step-icon">📍</span>
+        <h3>Informe o endereço</h3>
+        <p>Preencha seu endereço de entrega antes de finalizar.</p>
       </div>
       <div class="step">
         <div class="step-num">03</div>
         <span class="step-icon">🛵</span>
         <h3>Receba em casa</h3>
-        <p>Nosso motoboy leva até você em até 30 minutos. Rápido como o nome diz.</p>
+        <p>Nosso motoboy leva até você em até 30 minutos.</p>
       </div>
     </div>
   </section>
@@ -168,43 +225,18 @@
     <div class="section-tag">Por que escolher a gente</div>
     <h2>A diferença que <em>você sente</em></h2>
     <p class="section-desc">Não é só entrega. É compromisso com qualidade e velocidade.</p>
-
     <div class="diferenciais-grid">
-      <div class="diferencial">
-        <div class="diferencial-icon">🌡️</div>
-        <div>
-          <h4>Sempre gelado</h4>
-          <p>Produtos armazenados em temperatura ideal. Você recebe como deveria ser.</p>
-        </div>
-      </div>
-      <div class="diferencial">
-        <div class="diferencial-icon">⚡</div>
-        <div>
-          <h4>Entrega expressa</h4>
-          <p>Média de 30 minutos. Sem enrolação, sem desculpa — compromisso de verdade.</p>
-        </div>
-      </div>
-      <div class="diferencial">
-        <div class="diferencial-icon">💳</div>
-        <div>
-          <h4>Pagamento fácil</h4>
-          <p>Pix, dinheiro ou cartão. Escolha o que for melhor pra você.</p>
-        </div>
-      </div>
-      <div class="diferencial">
-        <div class="diferencial-icon">📅</div>
-        <div>
-          <h4>Todos os dias</h4>
-          <p>Segunda a domingo, sempre disponível. Inclusive feriados e fins de semana.</p>
-        </div>
-      </div>
+      <div class="diferencial"><div class="diferencial-icon">🌡️</div><div><h4>Sempre gelado</h4><p>Produtos armazenados em temperatura ideal. Você recebe como deveria ser.</p></div></div>
+      <div class="diferencial"><div class="diferencial-icon">⚡</div><div><h4>Entrega expressa</h4><p>Média de 30 minutos. Sem enrolação, sem desculpa — compromisso de verdade.</p></div></div>
+      <div class="diferencial"><div class="diferencial-icon">💳</div><div><h4>Pagamento fácil</h4><p>Pix, dinheiro ou cartão. Escolha o que for melhor pra você.</p></div></div>
+      <div class="diferencial"><div class="diferencial-icon">📅</div><div><h4>Todos os dias</h4><p>Segunda a domingo, sempre disponível. Inclusive feriados e fins de semana.</p></div></div>
     </div>
   </section>
 
   <!-- CTA FINAL -->
   <section id="cta">
     <div class="cta-text">
-      <h2>Pronto pra <em style="color:#fff; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.4);">pedir?</em></h2>
+      <h2>Pronto pra <em style="color:#fff; text-decoration:underline; text-decoration-color:rgba(255,255,255,0.4)">pedir?</em></h2>
       <p>Manda mensagem agora e receba suas bebidas favoritas sem sair de casa.</p>
     </div>
     <div class="cta-actions">
@@ -215,7 +247,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <img src="assets/bebidasExpress01.png" alt="Bebidas Express">
+    <img src="assets/bebidaExpress.png" alt="Bebidas Express">
     <div class="footer-links">
       <a href="#produtos">Produtos</a>
       <a href="#como-funciona">Como funciona</a>
