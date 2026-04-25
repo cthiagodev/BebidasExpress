@@ -240,14 +240,16 @@ h1 span { color: var(--red); }
 .produto-img-wrap {
   position: relative;
   background: var(--gray-light);
-  height: 120px;
+  height: 180px;
   display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
 }
 .produto-img-placeholder {
   font-size: 52px; line-height: 1;
 }
 .produto-img-wrap img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; height: 100%; object-fit: contain;
+  padding: 8px;
 }
 
 /* Badge */
@@ -415,7 +417,7 @@ footer img { height: 48px; width: auto; display: block; flex-shrink: 0; }
   #cta { flex-direction: column; align-items: flex-start; padding: 60px 6%; }
   .hero-line { display: none; }
   nav { padding: 0 3% 0 0; }
-  nav img { left: -100px; } /* ← AJUSTE MOBILE: mude esse valor para mover a logo à esquerda */
+  nav img { left: -15px; } /* ← AJUSTE MOBILE: mude esse valor para mover a logo à esquerda */
 }
 @media (max-width: 480px) {
   .produtos-grid { grid-template-columns: 1fr; }

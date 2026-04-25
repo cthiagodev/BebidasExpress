@@ -4,8 +4,66 @@
 
 const WHATSAPP_NUMBER = '5583998465707';
 
-/* ── Estado do Carrinho ── */
-let cart = [];
+/* ============================================================
+   ✏️  LISTA DE PRODUTOS — edite aqui para adicionar/remover
+   
+   Campos disponíveis:
+   - name:      Nome do produto (obrigatório)
+   - price:     Preço atual em número ex: 8.90 (obrigatório)
+   - icon:      Emoji do produto (obrigatório)
+   - desc:      Descrição curta (obrigatório)
+   - oldPrice:  Preço antigo riscado ex: 10.00 (opcional)
+   - badge:     Texto do badge ex: '-10%' ou 'NOVO' (opcional)
+   - badgeType: 'promo' (vermelho) ou 'novo' (preto) (opcional)
+   
+   Exemplo para adicionar um produto:
+   { name: 'Heineken Long Neck', price: 9.90, icon: '🍺', desc: '330ml gelada', oldPrice: 11.00, badge: '-10%', badgeType: 'promo' },
+   ============================================================ */
+const PRODUTOS = [
+  { name: 'Monster Mango Loco', price: 12.00, desc: 'Energy drink 473ml sabor Mango Loco.', img: 'assets/fotoMonster.webp' },
+  { name: 'Vodka Absolut Original', price: 30.00, desc: 'Vodka Absolut Original 100ml.', img: 'assets/Absolut-Vodka-Original-100ml.avif' }
+];
+
+/* ── Gerar cards de produtos ── */
+function renderProdutos() {
+  const grid = document.getElementById('produtosGrid');
+  if (!grid) return;
+
+  const svgCart = `<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.9 18 9 18h12v-2H9.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 23.45 5H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>`;
+
+  grid.innerHTML = PRODUTOS.map(p => `
+    <div class="produto-card" data-name="${p.name}" data-price="${p.price}" data-icon="${p.icon}">
+      <div class="produto-img-wrap">
+        ${p.badge ? `<div class="produto-badge badge-${p.badgeType}">${p.badge}</div>` : ''}
+        ${p.img
+          ? `<img src="${p.img}" alt="${p.name}">`
+          : `<div class="produto-img-placeholder">${p.icon}</div>`
+        }
+      </div>
+      <div class="produto-body">
+        <div class="produto-name">${p.name}</div>
+        <div class="produto-desc">${p.desc}</div>
+        <div class="produto-qty-row">
+          <span class="produto-qty-label">Quantidade:</span>
+          <div class="produto-qty">
+            <button class="qty-card-btn" onclick="changeCardQty(this,-1)">−</button>
+            <span class="qty-card-val">1</span>
+            <button class="qty-card-btn" onclick="changeCardQty(this,1)">+</button>
+          </div>
+        </div>
+        <div class="produto-price-row">
+          ${p.oldPrice ? `<span class="produto-price-old">R$ ${p.oldPrice.toFixed(2).replace('.', ',')}</span>` : ''}
+          <span class="produto-price">R$ ${p.price.toFixed(2).replace('.', ',')}</span>
+        </div>
+        <button class="btn-add-cart w-full">${svgCart} Adicionar</button>
+      </div>
+    </div>
+  `).join('');
+
+  // Reattach scroll reveal
+  initScrollReveal();
+}
+
 
 /* ── WhatsApp Links ── */
 function initWhatsAppLinks() {
@@ -104,25 +162,25 @@ function initCart() {
   close.addEventListener('click', closeCart);
   overlay.addEventListener('click', closeCart);
 
-  // Botões "Adicionar" nos cards
-  document.querySelectorAll('.produto-card').forEach(card => {
-    const btn = card.querySelector('.btn-add-cart');
+  // Botões "Adicionar" nos cards — usa delegação pois os cards são gerados dinamicamente
+  document.getElementById('produtosGrid').addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-add-cart');
     if (!btn) return;
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const qtyEl = card.querySelector('.qty-card-val');
-      const qty = qtyEl ? parseInt(qtyEl.textContent) : 1;
-      for (let i = 0; i < qty; i++) {
-        addToCart(card.dataset.name, card.dataset.price, card.dataset.icon);
-      }
-      btn.innerHTML = '✓ Adicionado!';
-      btn.style.background = '#25a244';
-      setTimeout(() => {
-        btn.innerHTML = `<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.9 18 9 18h12v-2H9.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 23.45 5H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg> Adicionar`;
-        btn.style.background = '';
-        if (qtyEl) qtyEl.textContent = '1';
-      }, 1200);
-    });
+    const card = btn.closest('.produto-card');
+    if (!card) return;
+    e.stopPropagation();
+    const qtyEl = card.querySelector('.qty-card-val');
+    const qty = qtyEl ? parseInt(qtyEl.textContent) : 1;
+    for (let i = 0; i < qty; i++) {
+      addToCart(card.dataset.name, card.dataset.price, card.dataset.icon);
+    }
+    btn.innerHTML = '✓ Adicionado!';
+    btn.style.background = '#25a244';
+    setTimeout(() => {
+      btn.innerHTML = `<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.9 18 9 18h12v-2H9.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 23.45 5H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg> Adicionar`;
+      btn.style.background = '';
+      if (qtyEl) qtyEl.textContent = '1';
+    }, 1200);
   });
 
   // Checkout abre modal de endereço
@@ -228,10 +286,10 @@ function initSmoothScroll() {
 
 /* ── Init ── */
 document.addEventListener('DOMContentLoaded', () => {
+  renderProdutos();  // gera os cards antes de tudo
   initWhatsAppLinks();
   initNavScroll();
   initCart();
   renderCart();
-  initScrollReveal();
   initSmoothScroll();
 });
